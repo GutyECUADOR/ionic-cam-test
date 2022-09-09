@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Nueva Inversión</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+
+  <form #inversionForm="ngForm" novalidate>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked" color="primary">Monto a invertir</ion-label>
+        <ion-input [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="monto.valid || submitted === false" class="ion-padding-start">
+          El monto es requerido
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Tipo de inversión</ion-label>
+        <ion-select placeholder="Seleccione el tipo de inversión" [(ngModel)]="inversion.tipo" name="tipo" #tipo="ngModel" required>
+          <ion-select-option value="General">General</ion-select-option>
+          <ion-select-option value="VIP1">VIP 1</ion-select-option>
+          <ion-select-option value="VIP2">VIP 2</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="tipo.valid || submitted === false" class="ion-padding-start">
+          El tipo de inversión es requerido
+        </p>
+      </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Cargar comprobante de pago</ion-label>
+      </ion-item>
+
+      <img [src]="inversion.imagen_recibo" class="slide-image" />
+
+      <div style="padding-top: 0px;">
+        <ion-button (click)="cargarFoto()" type="buttom" expand="block" color="success">Cargar comprobante 
+          <ion-icon slot="start" name="camera"></ion-icon>
+        </ion-button>
+      </div>
+      
+    </ion-list>
+
+    <div>
+      <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block">Invertir</ion-button>
+    </div>
+  </form>
+
+</ion-content>

@@ -1,0 +1,61 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button color='primary' (click)="startApp()" [hidden]="!showSkip">Omitir</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen="true">
+  <swiper [slidesPerView]="1" (swiper)="setSwiperInstance($event)" (slideChangeTransitionStart)="onSlideChangeStart()">
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/inversiones2.png" class="slide-image" />
+      <h2 class="slide-title">
+        Bienvenido a
+        <b>InversionesApp</b>
+      </h2>
+      <p>
+        <b>Inversiones App</b> is una simple y práctica aplicación que te permitirá dar seguimiento a tus inverisones.
+      </p>
+      <ion-button fill="clear">
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/inversiones1.png" class="slide-image" />
+      <h2 class="slide-title">Cómo empiezo a invertir?</h2>
+      <p>Contáctate con nuestro centro de atención para darte de alta en la plataforma.</p>
+      <ion-button fill="clear">
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+        </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/inversiones2.png" class="slide-image" />
+      <h2 class="slide-title">Cancela tu membresia</h2>
+      <p>Realiza el pago correspondiente al total acordado con tu supervisor.</p>
+      <ion-button fill="clear">
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+        </div>
+    </ng-template>
+
+    <ng-template swiperSlide>
+      <div class="slide-container">
+      <img src="assets/img/inversiones1.png" class="slide-image" />
+      <h2 class="slide-title">Empieza a ganar</h2>
+      <p>Espera a que se cumpla la fecha de tu inversión y retira tus inversiones.</p>
+      <ion-button fill="clear" (click)="startApp()">
+        Empezar
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+      </div>
+    </ng-template>
+  </swiper>
+</ion-content>
