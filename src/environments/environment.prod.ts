@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: 'http://inversapp.com/'
+  API_URL: 'http://aulavirtualtics.com/backendinv/'
 };
