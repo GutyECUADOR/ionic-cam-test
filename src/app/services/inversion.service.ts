@@ -14,6 +14,7 @@ export class InversionService {
 
   constructor(private http: HttpClient, public userData: UserData) { 
     userData.getToken().then( token => {
+      console.log(token);
       this.access_token = token;
     });
   }

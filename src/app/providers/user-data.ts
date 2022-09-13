@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
+import { Preferences } from '@capacitor/preferences';
 
 
 @Injectable({
@@ -7,12 +7,10 @@ import { Storage } from '@ionic/storage';
 })
 export class UserData {
   favorites: string[] = [];
-  HAS_LOGGED_IN = 'hasLoggedIn';
-  HAS_SEEN_TUTORIAL = 'hasSeenTutorial';
+  HAS_LOGGED_IN = 'true';
+  HAS_SEEN_TUTORIAL = 'true';
 
-  constructor(
-    public storage: Storage
-  ) { }
+  constructor() { }
 
   hasFavorite(sessionName: string): boolean {
     return (this.favorites.indexOf(sessionName) > -1);
@@ -29,58 +27,66 @@ export class UserData {
     }
   }
 
-  login(data: any): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
+  login(data: any) { //HAS_LOGGED_IN
+      Preferences.set({
+        key: 'HAS_LOGGED_IN',
+        value: 'true',
+      });
       this.setUsername(data.user.name);
       this.setToken(data.access_token);
-      return window.dispatchEvent(new CustomEvent('user:login'));
+      window.dispatchEvent(new CustomEvent('user:login'));
+   
+  }
+
+  async signup(data: any) {
+    Preferences.set({
+      key: 'HAS_LOGGED_IN',
+      value: 'true',
     });
+    await this.setUsername(data.user.name);
+    await this.setToken(data.access_token);
+    window.dispatchEvent(new CustomEvent('user:signup'));
+   
   }
 
-  signup(username: string): Promise<any> {
-    return this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setUsername(username);
-      return window.dispatchEvent(new CustomEvent('user:signup'));
-    });
+  async logout() { //HAS_LOGGED_IN
+    await Preferences.remove({ key: 'HAS_LOGGED_IN' });
+    await Preferences.remove({ key: 'access_token' });
+    window.dispatchEvent(new CustomEvent('user:logout'));
+  
   }
 
-  logout(): Promise<any> {
-    return this.storage.remove(this.HAS_LOGGED_IN).then(() => {
-      return this.storage.remove('access_token');
-    }).then(() => {
-      window.dispatchEvent(new CustomEvent('user:logout'));
-    });
+  setUsername(username: string) { //username
+    Preferences.set({key: 'username', value: username});
   }
 
-  setUsername(username: string): Promise<any> {
-    return this.storage.set('username', username);
+  async getUsername() {
+    const { value } = await Preferences.get({ key: 'username' });
+    return value;
   }
 
-  getUsername(): Promise<string> {
-    return this.storage.get('username').then((value) => {
-      return value;
-    });
+  setToken(access_token: string) {
+    Preferences.set({key: 'access_token', value: access_token});
   }
 
-  setToken(access_token: string): Promise<any> {
-    return this.storage.set('access_token', access_token);
+  async getToken() {
+    const { value } = await Preferences.get({ key: 'access_token' });
+    return value;
   }
 
-  getToken(): Promise<string> {
-    return this.storage.get('access_token').then((value) => {
-      return value;
-    });
+  async isLoggedIn(): Promise<boolean> { //HAS_LOGGED_IN
+    const { value } = await Preferences.get({ key: 'HAS_LOGGED_IN' });
+    if (value) {
+      return true;
+    }
+    return false;
   }
 
-  isLoggedIn(): Promise<boolean> {
-    return this.storage.get(this.HAS_LOGGED_IN).then((value) => {
-      return value === true;
-    });
-  }
-
-  checkHasSeenTutorial(): Promise<string> {
-    return this.storage.get(this.HAS_SEEN_TUTORIAL).then((value) => {
-      return value;
-    });
+  async checkHasSeenTutorial() { //HAS_SEEN_TUTORIAL
+    const { value } = await Preferences.get({ key: 'HAS_SEEN_TUTORIAL' });
+    if (value) {
+      return true;
+    }
+    return false;
   }
 }

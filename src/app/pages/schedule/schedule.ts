@@ -1,9 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
 
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
+import { Preferences } from '@capacitor/preferences';
+
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
 
@@ -39,16 +39,15 @@ export class SchedulePage implements OnInit {
     public toastCtrl: ToastController,
     public user: UserData,
     public config: Config,
-    public storage: Storage,
     public inversionService: InversionService
   ) { }
 
-  ngOnInit() {
-    this.storage.get('hasLoggedIn').then(res => {
-      if (res != true) {
+  async ngOnInit() { //hasLoggedIn
+    const { value } = await Preferences.get({ key: 'hasLoggedIn' });
+      if (value == 'true') {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
-    });
+  
 
     this.ios = this.config.get('mode') === 'ios';
   }

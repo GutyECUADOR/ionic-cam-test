@@ -7,7 +7,7 @@ import { MenuController, Platform, ToastController } from '@ionic/angular';
 import { StatusBar } from '@capacitor/status-bar';
 import { SplashScreen } from '@capacitor/splash-screen';
 
-import { Storage } from '@ionic/storage';
+import { Preferences } from '@capacitor/preferences';
 
 import { UserData } from './providers/user-data';
 
@@ -37,7 +37,6 @@ export class AppComponent implements OnInit {
     private menu: MenuController,
     private platform: Platform,
     private router: Router,
-    private storage: Storage,
     private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
@@ -113,7 +112,10 @@ export class AppComponent implements OnInit {
 
   openTutorial() {
     this.menu.enable(false);
-    this.storage.set('ion_did_tutorial', false);
+    Preferences.set({
+      key: 'ion_did_tutorial',
+      value: 'false',
+    });
     this.router.navigateByUrl('/tutorial');
   }
 }

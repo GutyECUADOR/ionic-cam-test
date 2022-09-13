@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Storage } from '@ionic/storage';
 import { UserData } from '../../providers/user-data';
 
 import { MenuController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
 
 import { UserOptions } from '../../interfaces/user-options';
 import { AlertController } from '@ionic/angular';
@@ -23,7 +23,6 @@ export class LoginPage {
     private authService: AuthService,
     public userData: UserData,
     public router: Router,
-    public storage: Storage,
     public alertCtrl: AlertController,
     public menu: MenuController,
   ) { }
@@ -61,12 +60,12 @@ export class LoginPage {
     this.router.navigateByUrl('/signup');
   }
 
-  ionViewWillEnter() {
-    this.storage.get('hasLoggedIn').then(res => {
-      if (res === true) {
+  async ionViewWillEnter() { //hasLoggedIn
+    const { value } = await Preferences.get({ key: 'hasLoggedIn' });
+      if (value) {
         this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
       }
-    });
+    
   }
 
 }
