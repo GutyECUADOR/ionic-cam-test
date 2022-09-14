@@ -65,7 +65,12 @@ export class LoginPage {
       if (value) {
         this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
       }
-    
+    this.menu.enable(false);
+  }
+
+  ionViewDidLeave() {
+    // enable the root left menu when leaving the tutorial page
+    this.menu.enable(true);
   }
 
 }

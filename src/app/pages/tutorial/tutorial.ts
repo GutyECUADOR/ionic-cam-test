@@ -43,7 +43,7 @@ export class TutorialPage {
 
   async ionViewWillEnter() { //ion_did_tutorial
     const { value } = await Preferences.get({ key: 'ion_did_tutorial' });
-      if (value === 'true') {
+      if (value) {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
    
@@ -51,8 +51,4 @@ export class TutorialPage {
     this.menu.enable(false);
   }
 
-  ionViewDidLeave() {
-    // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
-  }
 }

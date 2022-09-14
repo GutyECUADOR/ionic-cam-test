@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { IUser } from './../interfaces/user.interface';
 
 
 @Injectable({
@@ -7,9 +8,7 @@ import { Preferences } from '@capacitor/preferences';
 })
 export class UserData {
   favorites: string[] = [];
-  HAS_LOGGED_IN = 'true';
-  HAS_SEEN_TUTORIAL = 'true';
-
+  
   constructor() { }
 
   hasFavorite(sessionName: string): boolean {
@@ -27,12 +26,12 @@ export class UserData {
     }
   }
 
-  login(data: any) { //HAS_LOGGED_IN
+  login(data: any) { 
       Preferences.set({
         key: 'HAS_LOGGED_IN',
         value: 'true',
       });
-      this.setUsername(data.user.name);
+      this.setUser(data);
       this.setToken(data.access_token);
       window.dispatchEvent(new CustomEvent('user:login'));
    
@@ -43,26 +42,26 @@ export class UserData {
       key: 'HAS_LOGGED_IN',
       value: 'true',
     });
-    await this.setUsername(data.user.name);
-    await this.setToken(data.access_token);
+    this.setUser(data);
+    this.setToken(data.access_token);
     window.dispatchEvent(new CustomEvent('user:signup'));
    
   }
 
-  async logout() { //HAS_LOGGED_IN
-    await Preferences.remove({ key: 'HAS_LOGGED_IN' });
-    await Preferences.remove({ key: 'access_token' });
-    window.dispatchEvent(new CustomEvent('user:logout'));
-  
+  async logout() { 
+    Preferences.clear().then(() => {
+      window.dispatchEvent(new CustomEvent('user:logout'));
+    })
   }
 
-  setUsername(username: string) { //username
-    Preferences.set({key: 'username', value: username});
+  setUser(user: object) {
+    Preferences.set({key: 'user', value: JSON.stringify(user)});
   }
 
-  async getUsername() {
-    const { value } = await Preferences.get({ key: 'username' });
-    return value;
+  async getUser(){
+    const { value } = await Preferences.get({ key: 'user' });
+    console.log(JSON.parse(value));
+    return JSON.parse(value);
   }
 
   setToken(access_token: string) {
@@ -74,7 +73,7 @@ export class UserData {
     return value;
   }
 
-  async isLoggedIn(): Promise<boolean> { //HAS_LOGGED_IN
+  async isLoggedIn(): Promise<boolean> { 
     const { value } = await Preferences.get({ key: 'HAS_LOGGED_IN' });
     if (value) {
       return true;
