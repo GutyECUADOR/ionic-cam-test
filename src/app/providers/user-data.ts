@@ -28,7 +28,7 @@ export class UserData {
 
   login(data: any) { 
       Preferences.set({
-        key: 'HAS_LOGGED_IN',
+        key: 'hasLoggedIn',
         value: 'true',
       });
       this.setUser(data);
@@ -39,7 +39,7 @@ export class UserData {
 
   async signup(data: any) {
     Preferences.set({
-      key: 'HAS_LOGGED_IN',
+      key: 'hasLoggedIn',
       value: 'true',
     });
     this.setUser(data);
@@ -74,7 +74,7 @@ export class UserData {
   }
 
   async isLoggedIn(): Promise<boolean> { 
-    const { value } = await Preferences.get({ key: 'HAS_LOGGED_IN' });
+    const { value } = await Preferences.get({ key: 'hasLoggedIn' });
     if (value) {
       return true;
     }
@@ -82,7 +82,7 @@ export class UserData {
   }
 
   async checkHasSeenTutorial() { //HAS_SEEN_TUTORIAL
-    const { value } = await Preferences.get({ key: 'HAS_SEEN_TUTORIAL' });
+    const { value } = await Preferences.get({ key: 'hasSeenTutorial' });
     if (value) {
       return true;
     }

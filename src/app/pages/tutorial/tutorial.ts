@@ -43,11 +43,11 @@ export class TutorialPage {
 
   async ionViewWillEnter() { //ion_did_tutorial
     const { value } = await Preferences.get({ key: 'ion_did_tutorial' });
-      if (value) {
+    console.log(value);
+      if (value == 'true') {
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
    
-
     this.menu.enable(false);
   }
 

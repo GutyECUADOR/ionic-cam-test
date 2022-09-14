@@ -62,7 +62,7 @@ export class LoginPage {
 
   async ionViewWillEnter() { //hasLoggedIn
     const { value } = await Preferences.get({ key: 'hasLoggedIn' });
-      if (value) {
+      if (value == 'true') {
         this.router.navigateByUrl('/app/tabs/schedule', { replaceUrl: true });
       }
     this.menu.enable(false);
