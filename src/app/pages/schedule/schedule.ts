@@ -44,11 +44,11 @@ export class SchedulePage implements OnInit {
 
   async ngOnInit() { //hasLoggedIn
     const { value } = await Preferences.get({ key: 'hasLoggedIn' });
-      if (value != 'true') {
+      if (value != 'true') { // Fix login
         this.router.navigateByUrl('/login', { replaceUrl: true });
       }
   
-    
+
     this.ios = this.config.get('mode') === 'ios';
   }
 
