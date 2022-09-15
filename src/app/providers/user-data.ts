@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
+import { App } from '@capacitor/app';
 import { IUser } from './../interfaces/user.interface';
 
 
@@ -51,6 +52,7 @@ export class UserData {
   async logout() { 
     Preferences.clear().then(() => {
       window.dispatchEvent(new CustomEvent('user:logout'));
+      App.exitApp();
     })
   }
 

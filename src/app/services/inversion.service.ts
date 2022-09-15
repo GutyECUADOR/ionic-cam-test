@@ -38,4 +38,15 @@ export class InversionService {
     });
     return this.http.get<IResponseInversion>(URL, {headers});
   }
+
+  postCreateInversion(form:any):Observable<any>{
+    console.log(form)
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.access_token}`
+    });
+    
+    let URL = environment.API_URL + 'api/inversion'
+    return this.http.post<any>(URL, form, {headers});
+  }
 }
