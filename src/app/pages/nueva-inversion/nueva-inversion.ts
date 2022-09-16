@@ -27,6 +27,7 @@ export class NuevaInversion {
     created_at: '',
     updated_at: '',
   };
+  imagen_src: string;
   submitted = false;
 
   constructor(public router: Router, 
@@ -35,17 +36,23 @@ export class NuevaInversion {
     
   }
 
-  onSubmit(form: NgForm) {
+  async onSubmit(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      this.inversionService.postCreateInversion(this.inversion).subscribe( data => {
+      this.inversionService.postCreateInversion(this.inversion).subscribe( async data => {
         console.log(data);
+        const alert = await this.alertCtrl.create({
+          header: 'Registro Exitoso',
+          message: `${data.message}. Su inversión esta siendo validada.`,
+          buttons: ['Aceptar'],
+        });
+        await alert.present();
       }, async error =>{
         console.log(error);
         const alert = await this.alertCtrl.create({
           header: 'Registro Fallido',
-          message: `${error.error.message}`,
-          buttons: ['OK'],
+          message: `${error.error.message}. Verifique todos los campos. Y la imagen del comprobante.`,
+          buttons: ['Aceptar'],
         });
         await alert.present();
       });
@@ -61,7 +68,8 @@ export class NuevaInversion {
     })
 
     if (img_recibo) {
-      this.inversion.imagen_recibo = `data:image/jpeg;base64,${img_recibo.base64String}`
+      this.inversion.imagen_recibo = img_recibo.base64String;
+      this.imagen_src = `data:image/jpeg;base64,${img_recibo.base64String}`;
     }
     
   }

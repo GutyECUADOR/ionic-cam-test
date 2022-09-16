@@ -48,7 +48,13 @@
           <ion-label>
             <h3>{{inversion.estado | titlecase}}</h3>
             <p>
-              {{inversion.fecha_inversion}} &mdash; $ {{inversion.monto}}
+              {{inversion.fecha_inversion}} &mdash; $ {{inversion.monto}} 
+            </p>
+            <container-element [ngSwitch]="inversion.dias_pago">
+              <ion-badge *ngSwitchCase="inversion.dias_pago > 30" color="danger">{{ inversion.dias_pago }} dias restantes</ion-badge>
+              <ion-badge *ngSwitchCase="0" color="success">{{ inversion.dias_pago }} dias restantes</ion-badge>
+              <ion-badge *ngSwitchDefault color="primary">{{ inversion.dias_pago }} dias restantes </ion-badge>
+           </container-element>
           </ion-label>
         </ion-item>
         
