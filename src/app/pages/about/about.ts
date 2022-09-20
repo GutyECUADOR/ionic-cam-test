@@ -32,4 +32,9 @@ export class AboutPage {
     });
     await popover.present();
   }
+
+  openSocial(){
+    console.log('Open Whatsapp');
+    window.open('https://api.whatsapp.com/send?phone=0999887479?text=Hola%20necesito%20ayuda%20con...', "_blank");
+  }
 }

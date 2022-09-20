@@ -48,7 +48,7 @@
           <ion-label>
             <h3>{{inversion.estado | titlecase}}</h3>
             <p>
-              {{inversion.fecha_inversion}} &mdash; $ {{inversion.monto}} 
+              <strong>Fecha de cobro: </strong>{{inversion.fecha_pago}} &mdash; $ {{inversion.monto}} 
             </p>
             <container-element [ngSwitch]="inversion.dias_pago">
               <ion-badge *ngSwitchCase="inversion.dias_pago > 30" color="danger">{{ inversion.dias_pago }} dias restantes</ion-badge>
@@ -62,8 +62,49 @@
    
   </ion-list>
 
-  <ion-list-header [hidden]="inversiones.length > 0">
-    <img src="assets/img/NoDataFound.png" class="slide-image" />
-  </ion-list-header>
+  <ion-list *ngIf="inversiones.length === 0">
+    <ion-list-header>
+      <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
+    </ion-list-header>
+    <ion-item>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>
+          <ion-skeleton-text [animated]="true" style="width: 80%;"></ion-skeleton-text>
+        </h3>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 60%;"></ion-skeleton-text>
+        </p>
+        <p>
+          <ion-skeleton-text [animated]="true" style="width: 30%;"></ion-skeleton-text>
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 
 </ion-content>

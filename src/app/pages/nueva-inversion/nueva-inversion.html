@@ -14,7 +14,7 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Monto a invertir</ion-label>
-        <ion-input [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" required>
+        <ion-input class="monto" [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
@@ -26,9 +26,8 @@
       <ion-item>
         <ion-label position="stacked" color="primary">Tipo de inversión</ion-label>
         <ion-select placeholder="Seleccione el tipo de inversión" [(ngModel)]="inversion.tipo" name="tipo" #tipo="ngModel" required>
-          <ion-select-option value="General">General</ion-select-option>
-          <ion-select-option value="VIP1">VIP 1</ion-select-option>
-          <ion-select-option value="VIP2">VIP 2</ion-select-option>
+          <ion-select-option *ngFor="let inversion of tiposInversion" [value]="inversion.id">{{ inversion.nombre }}</ion-select-option>
+         
         </ion-select>
       </ion-item>
       <ion-text color="danger">

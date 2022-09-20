@@ -37,7 +37,7 @@ export class SchedulePage implements OnInit {
     public router: Router,
     public routerOutlet: IonRouterOutlet,
     public toastCtrl: ToastController,
-    public user: UserData,
+    public userData: UserData,
     public config: Config,
     public inversionService: InversionService
   ) { }
@@ -70,6 +70,23 @@ export class SchedulePage implements OnInit {
       });
 
       await toast.present();
+    }, async error => {
+      console.log(error);
+      const alert = await this.alertCtrl.create({
+        header: 'Token caducado',
+        message: `${error.statusText}. Reinicie sesión antes de invertir, su token no es válido`,
+        buttons: [{
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {
+            console.log('Cerrar sesion');
+            this.userData.logout().then(() => {
+              return this.router.navigateByUrl('/login');
+            });
+          },
+        }]
+      });
+      await alert.present();
     });
   }
 

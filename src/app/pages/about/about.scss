@@ -1,3 +1,23 @@
+ion-fab-button {
+  --background: var(--ion-color-step-150, rgb(28, 104, 38));
+  --background-hover: var(--ion-color-step-200, #159646);
+  --background-focused: var(--ion-color-step-250, #0f8f49);
+
+  --color: var(--ion-color-primary, #ffffff);
+}
+
+ion-fab-button ion-icon {
+  color: white;
+}
+
+/*
+ * Material Design uses the ripple for activated
+ * so only style the iOS activated background
+ */
+.ios ion-fab-button {
+  --background-activated: var(--ion-color-step-250, #159646);
+}
+
 ion-toolbar {
   position: absolute;
 

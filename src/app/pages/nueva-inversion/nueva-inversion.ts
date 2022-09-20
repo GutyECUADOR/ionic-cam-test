@@ -27,6 +27,7 @@ export class NuevaInversion {
     created_at: '',
     updated_at: '',
   };
+  tiposInversion = [];
   imagen_src: string;
   submitted = false;
 
@@ -34,6 +35,17 @@ export class NuevaInversion {
     public inversionService: InversionService,
     public alertCtrl: AlertController,) {
     
+  }
+
+  ionViewWillEnter() {
+    this.getTiposInversion();
+  }
+
+  getTiposInversion() {
+    this.inversionService.getTiposInversiones().subscribe(async reponse => {
+      this.tiposInversion = reponse.tiposInversion;
+      console.log(this.tiposInversion);
+    });
   }
 
   async onSubmit(form: NgForm) {
@@ -44,7 +56,15 @@ export class NuevaInversion {
         const alert = await this.alertCtrl.create({
           header: 'Registro Exitoso',
           message: `${data.message}. Su inversión esta siendo validada.`,
-          buttons: ['Aceptar'],
+          buttons: [{
+            text: 'Aceptar',
+            role: 'confirm',
+            handler: () => {
+              form.resetForm();
+              this.imagen_src = '';
+              return this.router.navigateByUrl('/app/tabs/schedule');
+            },
+          }]
         });
         await alert.present();
       }, async error =>{
@@ -70,6 +90,7 @@ export class NuevaInversion {
     if (img_recibo) {
       this.inversion.imagen_recibo = img_recibo.base64String;
       this.imagen_src = `data:image/jpeg;base64,${img_recibo.base64String}`;
+      /* console.log(this.inversion.imagen_recibo); */
     }
     
   }

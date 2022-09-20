@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { IResponseInversion } from './../interfaces/iresponse-inversion.interface';
 import { Observable, throwError } from "rxjs";
 import { UserData } from '../providers/user-data';
+import { IResponseTipoInversion } from './../interfaces/iresponse-tipoinversion.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -48,5 +49,15 @@ export class InversionService {
     
     let URL = environment.API_URL + 'api/inversion'
     return this.http.post<any>(URL, form, {headers});
+  }
+
+  getTiposInversiones():Observable<IResponseTipoInversion> {
+    let URL = environment.API_URL + 'api/tiposinversion'
+    
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.access_token}`
+    });
+    return this.http.get<IResponseTipoInversion>(URL, {headers});
   }
 }
