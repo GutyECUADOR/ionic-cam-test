@@ -37,6 +37,6 @@ export class AboutPage {
   openSocial(){
     let phone = environment.phone;
     console.log('Open Whatsapp');
-    window.open(`https://api.whatsapp.com/send?phone=${phone}?text=Hola%20necesito%20ayuda%20con...`, "_blank");
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Necesito soporte sobre..."`, "_blank");
   }
 }
