@@ -4,6 +4,7 @@ import { PopoverController } from '@ionic/angular';
 
 import { PopoverPage } from '../about-popover/about-popover';
 import { IUser } from './../../interfaces/user.interface';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'page-about',
@@ -34,7 +35,8 @@ export class AboutPage {
   }
 
   openSocial(){
+    let phone = environment.phone;
     console.log('Open Whatsapp');
-    window.open('https://api.whatsapp.com/send?phone=0999887479?text=Hola%20necesito%20ayuda%20con...', "_blank");
+    window.open(`https://api.whatsapp.com/send?phone=${phone}?text=Hola%20necesito%20ayuda%20con...`, "_blank");
   }
 }

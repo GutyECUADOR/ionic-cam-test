@@ -1,6 +1,7 @@
 export interface IInversion {
     id: number;
-    tipo: string;
+    tasa: number;
+    dias_inversion: number;
     monto: number;
     fecha_inversion: string;
     fecha_pago: string,

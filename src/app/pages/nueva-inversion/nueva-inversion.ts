@@ -17,8 +17,9 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 export class NuevaInversion {
   inversion: IInversion = {
     id: null,
-    tipo: '',
-    monto: 10,
+    tasa: 0,
+    dias_inversion: 30,
+    monto: 50,
     fecha_inversion: '',
     fecha_pago: '',
     imagen_recibo: null,
@@ -29,6 +30,9 @@ export class NuevaInversion {
   };
   tiposInversion = [];
   imagen_src: string;
+  tasa: number;
+ 
+  beneficio_aproximado: number = 0;
   submitted = false;
 
   constructor(public router: Router, 
@@ -94,5 +98,20 @@ export class NuevaInversion {
     }
     
   }
+
+  onSelectChangeTasa(selectedValue: any) {
+    console.log('Selected', selectedValue);
+    this.calculateAproximado();
+  }
+
+  onSelectChangeDiasInversion(selectedValue: any) {
+    console.log('Selected', selectedValue);
+    this.calculateAproximado();
+  }
+
+  calculateAproximado(){
+    this.beneficio_aproximado = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
+  }
+  
 
 }

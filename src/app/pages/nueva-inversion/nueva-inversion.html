@@ -24,17 +24,34 @@
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Tipo de inversión</ion-label>
-        <ion-select placeholder="Seleccione el tipo de inversión" [(ngModel)]="inversion.tipo" name="tipo" #tipo="ngModel" required>
-          <ion-select-option *ngFor="let inversion of tiposInversion" [value]="inversion.id">{{ inversion.nombre }}</ion-select-option>
+        <ion-label position="stacked" color="primary">Tipo/Tasa de inversión</ion-label>
+        <ion-select placeholder="Seleccione la tasa de inversión" [(ngModel)]="inversion.tasa" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
+          <ion-select-option *ngFor="let inversion of tiposInversion" [value]="inversion.tasa" >{{ inversion.nombre }} - {{ inversion.tasa }}%</ion-select-option>
          
         </ion-select>
       </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Dias de inversión</ion-label>
+        <ion-select placeholder="Seleccione los dias de inversion" [(ngModel)]="inversion.dias_inversion" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
+          <ion-select-option value="30" >30 dias</ion-select-option>
+          <ion-select-option value="60" >60 dias</ion-select-option>
+          <ion-select-option value="90" >90 dias</ion-select-option>
+         
+        </ion-select>
+      </ion-item>
+
       <ion-text color="danger">
         <p [hidden]="tipo.valid || submitted === false" class="ion-padding-start">
           El tipo de inversión es requerido
         </p>
       </ion-text>
+
+      <ion-item>
+        <ion-label position="stacked" color="primary">Monto aproximado a recibir</ion-label>
+        <ion-input class="monto" [(ngModel)]="beneficio_aproximado" name="beneficio_aproximado" type="number" readonly>
+        </ion-input>
+      </ion-item>
 
       <ion-item>
         <ion-label position="stacked" color="primary">Cargar comprobante de pago</ion-label>
