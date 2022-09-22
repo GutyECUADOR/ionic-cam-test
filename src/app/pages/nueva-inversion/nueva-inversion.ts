@@ -67,6 +67,7 @@ export class NuevaInversion {
             handler: () => {
               form.resetForm();
               this.imagen_src = '';
+              this.submitted = false;
               return this.router.navigateByUrl('/app/tabs/schedule');
             },
           }]
@@ -80,6 +81,7 @@ export class NuevaInversion {
           buttons: ['Aceptar'],
         });
         await alert.present();
+        this.submitted = false;
       });
     }
   }

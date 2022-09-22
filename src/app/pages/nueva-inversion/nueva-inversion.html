@@ -70,7 +70,7 @@
     </ion-list>
 
     <div>
-      <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block">Invertir</ion-button>
+      <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block" [disabled]="submitted">Invertir</ion-button>
     </div>
   </form>
 
