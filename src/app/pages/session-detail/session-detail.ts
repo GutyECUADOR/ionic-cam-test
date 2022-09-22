@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 
-import { ConferenceData } from '../../providers/conference-data';
 import { ActivatedRoute } from '@angular/router';
 import { UserData } from '../../providers/user-data';
+import { InversionService } from './../../services/inversion.service';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'page-session-detail',
@@ -11,35 +14,41 @@ import { UserData } from '../../providers/user-data';
 })
 export class SessionDetailPage {
   session: any;
+  inversion: any;
   isFavorite = false;
   defaultHref = '';
 
   constructor(
-    private dataProvider: ConferenceData,
-    private userProvider: UserData,
-    private route: ActivatedRoute
+    public userData: UserData,
+    private route: ActivatedRoute,
+    public router: Router,
+    public inversionService: InversionService,
+    public alertCtrl: AlertController,
   ) { }
 
   ionViewWillEnter() {
-    this.dataProvider.load().subscribe((data: any) => {
-      if (data && data.schedule && data.schedule[0] && data.schedule[0].groups) {
-        const sessionId = this.route.snapshot.paramMap.get('sessionId');
-        for (const group of data.schedule[0].groups) {
-          if (group && group.sessions) {
-            for (const session of group.sessions) {
-              if (session && session.id === sessionId) {
-                this.session = session;
-
-                this.isFavorite = this.userProvider.hasFavorite(
-                  this.session.name
-                );
-
-                break;
-              }
-            }
-          }
-        }
-      }
+    const inversion_id = parseInt(this.route.snapshot.paramMap.get('sessionId'));
+    this.inversionService.getInversion(inversion_id).subscribe(async reponse => {
+      this.inversion = reponse.inversion;
+      console.log(this.inversion);
+      
+    }, async error => {
+      console.log(error);
+      const alert = await this.alertCtrl.create({
+        header: 'Token caducado',
+        message: `${error.statusText}. Reinicie sesión antes de invertir, su token no es válido`,
+        buttons: [{
+          text: 'Aceptar',
+          role: 'confirm',
+          handler: () => {
+            console.log('Cerrar sesion');
+            this.userData.logout().then(() => {
+              return this.router.navigateByUrl('/login');
+            });
+          },
+        }]
+      });
+      await alert.present();
     });
   }
 
@@ -47,21 +56,11 @@ export class SessionDetailPage {
     this.defaultHref = `/app/tabs/schedule`;
   }
 
-  sessionClick(item: string) {
-    console.log('Clicked', item);
+  descargarComprobante() {
+    console.log('Descargando');
+    let URL_comprobantes = environment.URL_comprobantes;
+    window.open(`${URL_comprobantes}${this.inversion.imagen_recibo}`, "_blank");
+
   }
 
-  toggleFavorite() {
-    if (this.userProvider.hasFavorite(this.session.name)) {
-      this.userProvider.removeFavorite(this.session.name);
-      this.isFavorite = false;
-    } else {
-      this.userProvider.addFavorite(this.session.name);
-      this.isFavorite = true;
-    }
-  }
-
-  shareSession() {
-    console.log('Clicked share session');
-  }
 }

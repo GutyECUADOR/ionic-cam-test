@@ -3,31 +3,25 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
     </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button (click)="toggleFavorite()">
-        <ion-icon *ngIf="!isFavorite" slot="icon-only" name="star-outline"></ion-icon>
-        <ion-icon *ngIf="isFavorite" slot="icon-only" name="star"></ion-icon>
-      </ion-button>
-      <ion-button (click)="shareSession()">
-        <ion-icon slot="icon-only" name="share"></ion-icon>
-      </ion-button>
-    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <div *ngIf="session" class="ion-padding">
-    <h1>{{session.name}}</h1>
-    <span *ngFor="let track of session?.tracks" [class]="'session-track-'+track.toLowerCase()">{{track}}</span>
-    <p>{{session.description}}</p>
-    <ion-text color="medium">
-      {{session.timeStart}} &ndash; {{session.timeEnd}}
-      <br /> {{session.location}}
+  <div *ngIf="inversion" class="ion-padding">
+    <h1 [class]="'inversion-'+inversion.estado.toLowerCase()">Inversion {{inversion.estado | titlecase}}</h1>
+    <h2>Invertido: $ {{inversion.monto }}</h2>
+    <h2>A recibir: $ {{inversion.monto_recibir }}</h2>
+    <h2>Tasa: {{inversion.tasa}} %, a {{ inversion.dias_inversion }} dias</h2>
+    <ion-text>
+
+      <br/>Fecha de Inversion: {{inversion.fecha_inversion}} 
+      <br/>Fecha estimada de Pago: {{inversion.fecha_pago}}
+      <ion-badge style="font-size:1rem" color="primary">{{inversion.dias_pago}} dias restantes para recibir inversión.</ion-badge>
     </ion-text>
   </div>
 
   <ion-list>
-    <ion-item (click)="sessionClick('download video')" button>
+    <ion-item (click)="descargarComprobante()" button>
       <ion-label color="primary">Descargar comprobante</ion-label>
       <ion-icon slot="end" color="primary" size="small" name="cloud-download"></ion-icon>
     </ion-item>

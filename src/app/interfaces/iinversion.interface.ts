@@ -3,6 +3,7 @@ export interface IInversion {
     tasa: number;
     dias_inversion: number;
     monto: number;
+    monto_recibir: number;
     fecha_inversion: string;
     fecha_pago: string,
     imagen_recibo: any;

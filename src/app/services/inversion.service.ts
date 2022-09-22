@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { environment } from '../../environments/environment';
-import { IResponseInversion } from './../interfaces/iresponse-inversion.interface';
+import { IResponseInversion, IResponseInversiones } from './../interfaces/iresponse-inversion.interface';
 import { Observable, throwError } from "rxjs";
 import { UserData } from '../providers/user-data';
 import { IResponseTipoInversion } from './../interfaces/iresponse-tipoinversion.interface';
@@ -20,14 +20,14 @@ export class InversionService {
     });
   }
 
-  getInversiones():Observable<IResponseInversion> {
+  getInversiones():Observable<IResponseInversiones> {
     let URL = environment.API_URL + 'api/inversion'
     
     const headers = new HttpHeaders({ 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.access_token}`
     });
-    return this.http.get<IResponseInversion>(URL, {headers});
+    return this.http.get<IResponseInversiones>(URL, {headers});
   }
 
   getInversion(id: number): Observable<IResponseInversion> {

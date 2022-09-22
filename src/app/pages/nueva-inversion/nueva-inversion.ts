@@ -20,6 +20,7 @@ export class NuevaInversion {
     tasa: 0,
     dias_inversion: 30,
     monto: 50,
+    monto_recibir: 0,
     fecha_inversion: '',
     fecha_pago: '',
     imagen_recibo: null,
@@ -32,7 +33,7 @@ export class NuevaInversion {
   imagen_src: string;
   tasa: number;
  
-  beneficio_aproximado: number = 0;
+ 
   submitted = false;
 
   constructor(public router: Router, 
@@ -110,7 +111,7 @@ export class NuevaInversion {
   }
 
   calculateAproximado(){
-    this.beneficio_aproximado = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
+    this.inversion.monto_recibir = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
   }
   
 
