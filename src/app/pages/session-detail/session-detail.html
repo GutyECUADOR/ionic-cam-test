@@ -18,12 +18,12 @@
       <br/>Fecha estimada de Pago: {{inversion.fecha_pago}}
       <ion-badge style="font-size:1rem" color="primary">{{inversion.dias_pago}} dias restantes para recibir inversión.</ion-badge>
     </ion-text>
+    <ion-list>
+      <ion-item (click)="descargarComprobante()" button>
+        <ion-label color="primary">Descargar comprobante</ion-label>
+        <ion-icon slot="end" color="primary" size="small" name="cloud-download"></ion-icon>
+      </ion-item>
+    </ion-list>
   </div>
 
-  <ion-list>
-    <ion-item (click)="descargarComprobante()" button>
-      <ion-label color="primary">Descargar comprobante</ion-label>
-      <ion-icon slot="end" color="primary" size="small" name="cloud-download"></ion-icon>
-    </ion-item>
-  </ion-list>
 </ion-content>

@@ -38,11 +38,16 @@
               <ion-badge *ngSwitchDefault color="primary">{{ inversion.dias_pago }} dias restantes </ion-badge>
            </container-element>
           </ion-label>
-        </ion-item>
         
+        </ion-item>
+
+        <circle-chart [porcentaje]="inversion.porcentaje_progreso" [utilidad]="inversion.total_utilidad"></circle-chart>
+
+       
       </ion-item-sliding>
    
   </ion-list>
+
 
   <ion-list *ngIf="inversiones.length === 0">
     <ion-list-header>
