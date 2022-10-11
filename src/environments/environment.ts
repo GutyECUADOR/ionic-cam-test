@@ -4,7 +4,7 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 export const environment = {
   production: false,
-  API_URL: 'http://192.168.100.100/backendinv/public/',
+  API_URL: 'http://aulavirtualtics.com/backendinv/',
   URL_comprobantes: 'http://192.168.100.100/backendinv/public/storage/recibos/',
   phone: '+593999887479'
 };
