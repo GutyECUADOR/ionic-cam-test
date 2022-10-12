@@ -10,7 +10,7 @@
 <ion-content class="ion-padding">
 
 
-  <form #inversionForm="ngForm" novalidate>
+  <form #inversionForm="ngForm" validate>
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Monto a invertir</ion-label>
@@ -66,7 +66,7 @@
     </ion-list>
 
     <div>
-      <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block" [disabled]="submitted">Invertir</ion-button>
+      <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block" [disabled]="!inversionForm.valid">Invertir</ion-button>
     </div>
   </form>
 

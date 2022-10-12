@@ -88,6 +88,7 @@ export class AboutPage {
         type: "datetime"
       },
       yaxis: {
+        show: false,
         opposite: false
       },
     };

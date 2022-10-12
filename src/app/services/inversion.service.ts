@@ -5,7 +5,7 @@ import { IResponseInversion, IResponseInversiones } from './../interfaces/irespo
 import { Observable, throwError } from "rxjs";
 import { UserData } from '../providers/user-data';
 import { IResponseTipoInversion } from './../interfaces/iresponse-tipoinversion.interface';
-import { IResponseDiasInversion } from '../interfaces/iresponse-diasinversion.interface';
+import { IResponseDiasInversion } from './../interfaces/iresponse-diasinversion.interface';
 
 @Injectable({
   providedIn: 'root'

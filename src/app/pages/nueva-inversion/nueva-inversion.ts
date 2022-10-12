@@ -17,8 +17,8 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 export class NuevaInversion {
   inversion: IInversion = {
     id: null,
-    tasa: 0,
-    dias_inversion: 0,
+    tasa: null,
+    dias_inversion: null,
     monto: 50,
     monto_recibir: 0,
     fecha_inversion: '',
@@ -57,6 +57,7 @@ export class NuevaInversion {
 
   getDiasInversion() {
     this.inversionService.getDiasInversiones().subscribe(async reponse => {
+      console.log(reponse)
       this.diasInversion = reponse.diasInversion;
       console.log(this.diasInversion);
     });
