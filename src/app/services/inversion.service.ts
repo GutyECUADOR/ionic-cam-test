@@ -5,6 +5,7 @@ import { IResponseInversion, IResponseInversiones } from './../interfaces/irespo
 import { Observable, throwError } from "rxjs";
 import { UserData } from '../providers/user-data';
 import { IResponseTipoInversion } from './../interfaces/iresponse-tipoinversion.interface';
+import { IResponseDiasInversion } from '../interfaces/iresponse-diasinversion.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -59,5 +60,15 @@ export class InversionService {
       'Authorization': `Bearer ${this.access_token}`
     });
     return this.http.get<IResponseTipoInversion>(URL, {headers});
+  }
+
+  getDiasInversiones():Observable<IResponseDiasInversion> {
+    let URL = environment.API_URL + 'api/diasinversion'
+    
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.access_token}`
+    });
+    return this.http.get<IResponseDiasInversion>(URL, {headers});
   }
 }

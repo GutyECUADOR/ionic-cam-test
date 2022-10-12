@@ -27,17 +27,13 @@
         <ion-label position="stacked" color="primary">Tipo/Tasa de inversión</ion-label>
         <ion-select placeholder="Seleccione la tasa de inversión" [(ngModel)]="inversion.tasa" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
           <ion-select-option *ngFor="let inversion of tiposInversion" [value]="inversion.tasa" >{{ inversion.nombre }} - {{ inversion.tasa }}%</ion-select-option>
-         
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked" color="primary">Dias de inversión</ion-label>
         <ion-select placeholder="Seleccione los dias de inversion" [(ngModel)]="inversion.dias_inversion" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
-          <ion-select-option value="30" >30 dias</ion-select-option>
-          <ion-select-option value="60" >60 dias</ion-select-option>
-          <ion-select-option value="90" >90 dias</ion-select-option>
-         
+          <ion-select-option *ngFor="let diaInversion of diasInversion" [value]="diaInversion.dias" >{{ diaInversion.nombre }}</ion-select-option>
         </ion-select>
       </ion-item>
 

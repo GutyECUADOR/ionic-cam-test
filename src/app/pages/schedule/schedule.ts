@@ -19,6 +19,7 @@ export class SchedulePage implements OnInit {
   @ViewChild('scheduleList', { static: true }) scheduleList: IonList;
 
   ios: boolean;
+  isLoading: boolean = false;
   inversiones: any = [];
 
   constructor(
@@ -49,6 +50,7 @@ export class SchedulePage implements OnInit {
   }
 
   getInversiones(){
+    this.isLoading = true;
     this.inversionService.getInversiones().subscribe(async reponse => {
       this.inversiones = reponse.inversiones;
       console.log(this.inversiones);
@@ -80,6 +82,7 @@ export class SchedulePage implements OnInit {
       });
       await alert.present();
     });
+    this.isLoading = false;
   }
 
   titleCaseWord(word: string) {

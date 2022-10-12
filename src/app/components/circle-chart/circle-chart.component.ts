@@ -26,8 +26,7 @@ export class CircleChartComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.porcentaje)
-    console.log(this.utilidad)
+
     this.chartOptions = {
       series: [this.porcentaje],
       chart: {

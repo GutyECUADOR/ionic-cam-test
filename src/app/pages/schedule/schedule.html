@@ -26,6 +26,9 @@
   <ion-list #scheduleList [hidden]="inversiones.length === 0">
     
       <ion-item-sliding *ngFor="let inversion of inversiones" #slidingItem [attr.track]="inversion.estado | lowercase">
+        
+        <circle-chart [porcentaje]="inversion.porcentaje_progreso" [utilidad]="inversion.total_utilidad"></circle-chart>
+
         <ion-item routerLink="/app/tabs/schedule/session/{{inversion.id}}">
           <ion-label>
             <h3>{{inversion.estado | titlecase}}</h3>
@@ -33,23 +36,21 @@
               <strong>Fecha de cobro: </strong>{{inversion.fecha_pago}} &mdash; $ {{inversion.monto}} 
             </p>
             <container-element [ngSwitch]="inversion.dias_pago">
-              <ion-badge *ngSwitchCase="inversion.dias_pago > 30" color="danger">{{ inversion.dias_pago }} dias restantes</ion-badge>
-              <ion-badge *ngSwitchCase="0" color="success">{{ inversion.dias_pago }} dias restantes</ion-badge>
+              <ion-badge *ngSwitchCase="0" color="success"> Inversion lista</ion-badge>
               <ion-badge *ngSwitchDefault color="primary">{{ inversion.dias_pago }} dias restantes </ion-badge>
            </container-element>
           </ion-label>
         
         </ion-item>
 
-        <circle-chart [porcentaje]="inversion.porcentaje_progreso" [utilidad]="inversion.total_utilidad"></circle-chart>
-
+        
        
       </ion-item-sliding>
    
   </ion-list>
 
 
-  <ion-list *ngIf="inversiones.length === 0">
+  <ion-list *ngIf="isLoading">
     <ion-list-header>
       <ion-skeleton-text [animated]="true" style="width: 80px"></ion-skeleton-text>
     </ion-list-header>
@@ -93,5 +94,9 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-list-header [hidden]="inversiones.length > 0">
+    <img src="assets/img/NoDataFound.png" class="slide-image" />
+  </ion-list-header>
 
 </ion-content>

@@ -18,7 +18,7 @@ export class NuevaInversion {
   inversion: IInversion = {
     id: null,
     tasa: 0,
-    dias_inversion: 30,
+    dias_inversion: 0,
     monto: 50,
     monto_recibir: 0,
     fecha_inversion: '',
@@ -30,6 +30,7 @@ export class NuevaInversion {
     updated_at: '',
   };
   tiposInversion = [];
+  diasInversion = [];
   imagen_src: string;
   tasa: number;
  
@@ -44,12 +45,20 @@ export class NuevaInversion {
 
   ionViewWillEnter() {
     this.getTiposInversion();
+    this.getDiasInversion();
   }
 
   getTiposInversion() {
     this.inversionService.getTiposInversiones().subscribe(async reponse => {
       this.tiposInversion = reponse.tiposInversion;
       console.log(this.tiposInversion);
+    });
+  }
+
+  getDiasInversion() {
+    this.inversionService.getDiasInversiones().subscribe(async reponse => {
+      this.diasInversion = reponse.diasInversion;
+      console.log(this.diasInversion);
     });
   }
 
