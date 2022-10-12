@@ -1,17 +1,32 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mi cuenta</ion-title>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <ion-header class="ion-no-border">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-    </ion-toolbar>
-  </ion-header>
 
-  <div class="about-header">
-    <div class="about-image madison" [ngStyle]="location === 'madison' && {'opacity': '1'}"></div>
-  </div>
+  <ion-card *ngIf="exchangeLabels?.length > 0">
+    <ion-card-header>
+      <ion-card-title>Exchange Rates USD/ARS</ion-card-title>
+    </ion-card-header>
+    <apx-chart 
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [stroke]="chartOptions.stroke"
+      [dataLabels]="chartOptions.dataLabels"
+      [yaxis]="chartOptions.yaxis"
+      [labels]="chartOptions.labels"
+    ></apx-chart>
+  </ion-card>
 
+  
   <div class="about-info">
+   
     <h3 class="ion-padding-top ion-padding-start">Acerca de</h3>
 
     <p class="ion-padding-start ion-padding-end">
