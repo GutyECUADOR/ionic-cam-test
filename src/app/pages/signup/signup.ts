@@ -18,7 +18,7 @@ import { UserOptions } from '../../interfaces/user-options';
   styleUrls: ['./signup.scss'],
 })
 export class SignupPage {
-  signup: UserOptions = { email: '', password: '' };
+  signup: UserOptions = { name: '', email: '', password: '' };
   submitted = false;
 
   constructor(
@@ -36,24 +36,27 @@ export class SignupPage {
       message: 'Validando registro, espere...',
     });
     loading.present();
-
-
     this.submitted = true;
     
     if (form.valid) {
-      this.authService.loginByEmail(this.signup).subscribe( data => {
+      this.authService.registerByEmail(this.signup).subscribe( data => {
         console.log(data);
         if (data.access_token) {
-          this.userData.login(data);
+          this.userData.signup(data);
           loading.dismiss();
         this.router.navigateByUrl('/app/tabs/schedule');
         }
       }, async error =>{
-        console.log(error);
+        console.log(error.error.errors);
+        let erroresString = '';
+        Object.values(error.error.errors).forEach(error => {
+          console.log(error[0]);
+          erroresString += '<br>' + error[0];
+        });
         const alert = await this.alertCtrl.create({
           header: 'Registro Fallido',
-          message: `${error.error.message}`,
-          buttons: ['OK'],
+          message: `${erroresString}`,
+          buttons: ['Aceptar'],
         });
         loading.dismiss();
         await alert.present();

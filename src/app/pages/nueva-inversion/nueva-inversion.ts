@@ -91,7 +91,7 @@ export class NuevaInversion {
         console.log(data);
         const alert = await this.alertCtrl.create({
           header: 'Registro Exitoso',
-          message: `${data.message}. Su inversión esta siendo validada.`,
+          message: `${data.message}. Su inversión esta siendo validada. Confirme el pago de su inversión con nuestro soporte.`,
           buttons: [{
             text: 'Aceptar',
             role: 'confirm',
@@ -107,9 +107,15 @@ export class NuevaInversion {
         await alert.present();
       }, async error =>{
         console.log(error);
+        console.log(error.error.errors);
+        let erroresString = '';
+        Object.values(error.error.errors).forEach(error => {
+          console.log(error[0]);
+          erroresString += '<br>' + error[0];
+        });
         const alert = await this.alertCtrl.create({
           header: 'Registro Fallido',
-          message: `${error.error.message}. Verifique todos los campos. Y la imagen del comprobante.`,
+          message: `Verifique todos los campos. Y la imagen del comprobante. ${erroresString}. `,
           buttons: ['Aceptar'],
         });
         loading.dismiss();

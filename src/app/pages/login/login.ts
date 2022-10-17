@@ -18,7 +18,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { email: '', password: '' };
+  login: UserOptions = { name: '', email: '', password: '' };
   submitted = false;
 
   constructor(
