@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 import { LoadingController } from '@ionic/angular';
 
 import { AuthService } from '../../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-login',
@@ -82,6 +83,11 @@ export class LoginPage {
   ionViewDidLeave() {
     // enable the root left menu when leaving the tutorial page
    /*  this.menu.enable(true); */
+  }
+
+  openRestorePassword(){
+    let URL = environment.API_URL;
+    window.open(`${URL}forgot-password`, "_blank");
   }
 
 }

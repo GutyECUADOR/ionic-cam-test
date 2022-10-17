@@ -39,12 +39,22 @@ export class SignupPage {
     this.submitted = true;
     
     if (form.valid) {
-      this.authService.registerByEmail(this.signup).subscribe( data => {
+      this.authService.registerByEmail(this.signup).subscribe( async data => {
         console.log(data);
         if (data.access_token) {
-          this.userData.signup(data);
           loading.dismiss();
-        this.router.navigateByUrl('/app/tabs/schedule');
+          const alertUserCreated = await this.alertCtrl.create({
+            header: 'Registro Exitoso',
+            message: `Ya puede iniciar sesión en la plataforma.`,
+            buttons: [{
+              text: 'Aceptar',
+              role: 'confirm',
+              handler: () => {
+                this.router.navigateByUrl('/login');
+              },
+            }]
+          });
+          alertUserCreated.present();
         }
       }, async error =>{
         console.log(error.error.errors);
