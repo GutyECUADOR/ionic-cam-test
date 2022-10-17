@@ -14,7 +14,7 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Monto a invertir</ion-label>
-        <ion-input class="monto" [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" min="1" required>
+        <ion-input class="monto" [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" (ngModelChange)="calculateAproximado();" onKeyPress="if(this.value.length>=5) return false;" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">

@@ -37,12 +37,13 @@
     </ion-list>
 
     <ion-row>
-      <ion-col>
+      <ion-col class="ion-text-center">
         <ion-button (click)="onLogin(loginForm)" type="submit" expand="block">Ingresar</ion-button>
+        <a class="ion-padding-top" (click)="onSignup()"> Aun no tienes cuenta? Registrate aquí</a>
+        <ion-button (click)="onSignup()" color="light" expand="block">Registrarme</ion-button>
       </ion-col>
-      <!-- <ion-col>
-        <ion-button (click)="onSignup()" color="light" expand="block">Signup</ion-button>
-      </ion-col> -->
+      
+     
     </ion-row>
   </form>
 

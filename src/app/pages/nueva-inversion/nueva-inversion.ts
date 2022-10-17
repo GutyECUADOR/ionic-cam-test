@@ -32,6 +32,7 @@ export class NuevaInversion {
   };
   tiposInversion = [];
   diasInversion = [];
+  MAXIMO_VAL_INVERSION = 99999;
   imagen_src: string;
   tasa: number;
  
@@ -70,8 +71,20 @@ export class NuevaInversion {
     const loading = await this.loadingCtrl.create({
       message: 'Validando registro, espere...',
     });
-    loading.present();
+   
+    if (this.inversion.monto >= this.MAXIMO_VAL_INVERSION || this.inversion.monto < 10) {
+      const alert_maximo = await this.alertCtrl.create({
+        header: 'Monto de inversón no válido.',
+        message: `Valor máximo de inversión máximo: $${this.MAXIMO_VAL_INVERSION}, minimo $10.`,
+        buttons: [{
+          text: 'Aceptar'
+        }]
+      });
+      alert_maximo.present();
+      return;
+    }
 
+    loading.present();
     this.submitted = true;
     if (form.valid) {
       this.inversionService.postCreateInversion(this.inversion).subscribe( async data => {

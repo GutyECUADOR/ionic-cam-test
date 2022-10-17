@@ -36,7 +36,6 @@ export class LoginPage {
     });
     loading.present();
 
-
     this.submitted = true;
     
     if (form.valid) {
@@ -82,7 +81,7 @@ export class LoginPage {
 
   ionViewDidLeave() {
     // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
+   /*  this.menu.enable(true); */
   }
 
 }

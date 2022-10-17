@@ -3,43 +3,54 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Signup</ion-title>
+    <ion-title>Registro</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content class="ion-padding">
 
   <div class="signup-logo">
     <img src="assets/img/appicon.svg" alt="Ionic Logo">
   </div>
 
   <form #signupForm="ngForm" novalidate>
-    <ion-list lines="none">
+    <ion-list>
       <ion-item>
-        <ion-label position="stacked" color="primary">email</ion-label>
-        <ion-input [(ngModel)]="signup.email" name="email" type="text" #email="ngModel" required>
+        <ion-label position="stacked" color="primary">Nombre</ion-label>
+        <ion-input [(ngModel)]="signup.name" name="name" type="text" #name="ngModel" maxlength="100" required>
+        </ion-input>
+      </ion-item>
+      <ion-text color="danger">
+        <p [hidden]="name.valid || submitted === false" class="ion-padding-start">
+          Su nombre es obligatorio.
+        </p>
+      </ion-text>
+      
+      <ion-item>
+        <ion-label position="stacked" color="primary">Email</ion-label>
+        <ion-input [(ngModel)]="signup.email" name="email" type="text" #email="ngModel" maxlength="100" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
         <p [hidden]="email.valid || submitted === false" class="ion-padding-start">
-          email is required
-        </p>
+          email es obligatorio.
       </ion-text>
 
       <ion-item>
-        <ion-label position="stacked" color="primary">Password</ion-label>
-        <ion-input [(ngModel)]="signup.password" name="password" type="password" #password="ngModel" required>
+        <ion-label position="stacked" color="primary">Contraseña</ion-label>
+        <ion-input [(ngModel)]="signup.password" name="password" type="password" maxlength="100" #password="ngModel" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
         <p [hidden]="password.valid || submitted === false" class="ion-padding-start">
-          Password is required
+          Password es obligatorio.
         </p>
       </ion-text>
     </ion-list>
 
     <div class="ion-padding">
-      <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Create</ion-button>
+      <ion-button (click)="onSignup(signupForm)" type="submit" expand="block">Registrarme</ion-button>
+      <ion-button (click)="onReturnLogin()" color="light" type="button" expand="block">Regresar</ion-button>
     </div>
   </form>
 

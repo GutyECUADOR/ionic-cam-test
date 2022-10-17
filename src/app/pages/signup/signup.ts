@@ -1,8 +1,12 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 
 import { UserData } from '../../providers/user-data';
+import { AuthService } from '../../services/auth.service';
 
 import { UserOptions } from '../../interfaces/user-options';
 
@@ -19,15 +23,57 @@ export class SignupPage {
 
   constructor(
     public router: Router,
-    public userData: UserData
+    public userData: UserData,
+    public menu: MenuController,
+    private loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    private authService: AuthService,
+    
   ) {}
 
-  onSignup(form: NgForm) {
-    this.submitted = true;
+  async onSignup(form: NgForm) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Validando registro, espere...',
+    });
+    loading.present();
 
+
+    this.submitted = true;
+    
     if (form.valid) {
-      this.userData.signup(this.signup.email);
-      this.router.navigateByUrl('/app/tabs/schedule');
+      this.authService.loginByEmail(this.signup).subscribe( data => {
+        console.log(data);
+        if (data.access_token) {
+          this.userData.login(data);
+          loading.dismiss();
+        this.router.navigateByUrl('/app/tabs/schedule');
+        }
+      }, async error =>{
+        console.log(error);
+        const alert = await this.alertCtrl.create({
+          header: 'Registro Fallido',
+          message: `${error.error.message}`,
+          buttons: ['OK'],
+        });
+        loading.dismiss();
+        await alert.present();
+      });
+    }else{
+      const alert = await this.alertCtrl.create({
+        header: 'Registro Fallido',
+        message: `Complete los campos requeridos`,
+        buttons: ['OK'],
+      });
+      loading.dismiss();
+      await alert.present();
     }
+  }
+
+  async ionViewWillEnter() { //hasLoggedIn
+    this.menu.enable(false);
+  }
+
+  onReturnLogin() {
+    this.router.navigateByUrl('/login');
   }
 }
