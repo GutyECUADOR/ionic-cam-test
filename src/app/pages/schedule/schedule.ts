@@ -49,7 +49,11 @@ export class SchedulePage implements OnInit {
     this.getInversiones();
   }
 
-  getInversiones(){
+  async getInversiones(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando, espere...',
+    });
+    loading.present();
     this.isLoading = true;
     this.inversionService.getInversiones().subscribe(async reponse => {
       this.inversiones = reponse.inversiones;
@@ -62,7 +66,6 @@ export class SchedulePage implements OnInit {
           role: 'cancel'
         }]
       });
-
       await toast.present();
     }, async error => {
       console.log(error);
@@ -82,6 +85,7 @@ export class SchedulePage implements OnInit {
       });
       await alert.present();
     });
+    loading.dismiss();
     this.isLoading = false;
   }
 

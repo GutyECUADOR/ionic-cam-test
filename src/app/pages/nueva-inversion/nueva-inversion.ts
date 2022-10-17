@@ -5,6 +5,7 @@ import { AlertController } from '@ionic/angular';
 
 import { IInversion } from "../../interfaces/iinversion.interface";
 import { InversionService } from '../../services/inversion.service';
+import { LoadingController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 
@@ -39,7 +40,9 @@ export class NuevaInversion {
 
   constructor(public router: Router, 
     public inversionService: InversionService,
-    public alertCtrl: AlertController,) {
+    public alertCtrl: AlertController,
+    private loadingCtrl: LoadingController
+    ) {
     
   }
 
@@ -64,6 +67,11 @@ export class NuevaInversion {
   }
 
   async onSubmit(form: NgForm) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Validando registro, espere...',
+    });
+    loading.present();
+
     this.submitted = true;
     if (form.valid) {
       this.inversionService.postCreateInversion(this.inversion).subscribe( async data => {
@@ -82,6 +90,7 @@ export class NuevaInversion {
             },
           }]
         });
+        loading.dismiss();
         await alert.present();
       }, async error =>{
         console.log(error);
@@ -90,6 +99,7 @@ export class NuevaInversion {
           message: `${error.error.message}. Verifique todos los campos. Y la imagen del comprobante.`,
           buttons: ['Aceptar'],
         });
+        loading.dismiss();
         await alert.present();
         this.submitted = false;
       });
