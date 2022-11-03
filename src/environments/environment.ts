@@ -5,8 +5,9 @@
 export const environment = {
   production: false,
   API_URL: 'http://192.168.100.100/backendinv/public/',
-  URL_comprobantes: 'http://192.168.100.100/backendinv/public/storage/recibos/',
-  phone: '+593999887479'
+  URL_FORM: 'http://192.168.100.100/backendinv/public/sendEmail/',
+  URL_comprobantes: 'http://aulavirtualtics.com/backendinv/storage/recibos/',
+  phone: '+593'
 };
 
 /*
