@@ -52,6 +52,17 @@ export class InversionService {
     return this.http.post<any>(URL, form, {headers});
   }
 
+  postUpdateAvatar(form:any):Observable<any>{
+    console.log(form)
+    const headers = new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${this.access_token}`
+    });
+    
+    let URL = environment.API_URL + 'api/user'
+    return this.http.post<any>(URL, form, {headers});
+  }
+
   getTiposInversiones():Observable<IResponseTipoInversion> {
     let URL = environment.API_URL + 'api/tiposinversion'
     
