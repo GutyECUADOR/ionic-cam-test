@@ -7,7 +7,7 @@ export const environment = {
   API_URL: 'http://192.168.100.5/backendinv/public/',
   URL_FORM: 'http://192.168.100.5/backendinv/public/sendEmail/',
   URL_comprobantes: 'http://aulavirtualtics.com/backendinv/storage/recibos/',
-  URL_avatars: 'http://192.168.100.5/backendinv/public/storage/usuarios/',
+  URL_avatars: 'http://192.168.100.5/backendinv/public/storage/avatars/',
   phone: '+593'
 };
 

@@ -59,7 +59,7 @@ export class InversionService {
       'Authorization': `Bearer ${this.access_token}`
     });
     
-    let URL = environment.API_URL + 'api/user'
+    let URL = environment.API_URL + 'api/avatar'
     return this.http.post<any>(URL, form, {headers});
   }
 

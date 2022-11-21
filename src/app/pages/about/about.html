@@ -9,7 +9,10 @@
   </ion-header>
 
   <div class="speaker-background">
-    <img [src]="getAvatar()" [alt]="user?.name">
+    <ion-avatar>
+      <img [src]="getAvatar()" [alt]="user?.name">
+    </ion-avatar>
+    
     <h2>{{user?.name}}</h2>
   </div>
 
