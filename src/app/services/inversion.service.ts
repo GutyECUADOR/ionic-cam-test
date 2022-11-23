@@ -52,13 +52,14 @@ export class InversionService {
     return this.http.post<any>(URL, form, {headers});
   }
 
-  postUpdateAvatar(form:any):Observable<any>{
-    console.log(form)
+  postUpdateAvatar(foto:string):Observable<any>{
+    console.log(foto)
     const headers = new HttpHeaders({ 
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${this.access_token}`
     });
     
+    const form = { avatar: foto};
     let URL = environment.API_URL + 'api/avatar'
     return this.http.post<any>(URL, form, {headers});
   }

@@ -15,10 +15,7 @@ import { InversionService } from 'src/app/services/inversion.service';
   styleUrls: ['./about.scss'],
 })
 export class AboutPage {
-  foto: {
-    base64:string
-    imagen_src:string
-  }
+  foto: string;
   user: IUser;
   token:string;
   exchangeLabels:string[];
@@ -67,21 +64,20 @@ export class AboutPage {
     })
 
     if (avatar) {
-      this.foto.base64 = avatar.base64String;
-      this.foto.imagen_src = `data:image/jpeg;base64,${avatar.base64String}`;
-      /* console.log(this.inversion.imagen_recibo); */
+      console.log(avatar.base64String);
+      this.foto = avatar.base64String;
       this.updateFoto();
     }
     
   }
 
   async updateFoto() {
-    if (this.foto.base64) {
-      this.inversionService.postUpdateAvatar(this.foto.base64).subscribe( async data => {
+    if (this.foto) {
+      this.inversionService.postUpdateAvatar(this.foto).subscribe( async data => {
         console.log(data);
         const alert = await this.alertCtrl.create({
           header: 'Actualización de Avatar',
-          message: `${data.message}.`,
+          message: `${data.message}. Reinicia sesión para cargar tu nuevo avatar.`,
           buttons: ['Aceptar']
         });
         await alert.present();
