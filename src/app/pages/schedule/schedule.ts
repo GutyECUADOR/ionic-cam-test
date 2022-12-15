@@ -58,11 +58,14 @@ export class SchedulePage implements OnInit {
   }
 
   async getInversiones(){
+    this.isLoading = true;
+
     const loading = await this.loadingCtrl.create({
       message: 'Cargando, espere...',
     });
     loading.present();
-    this.isLoading = true;
+   
+    
     this.inversionService.getInversiones().subscribe(async reponse => {
       this.inversiones = reponse.inversiones;
       console.log(this.inversiones);

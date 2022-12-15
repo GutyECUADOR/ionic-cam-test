@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  API_URL: 'http://192.168.100.100/backendinv/public/',
-  URL_FORM: 'http://192.168.100.100/backendinv/public/sendEmail/',
-  URL_comprobantes: 'http://192.168.100.100/backendinv/public/storage/recibos/',
-  URL_avatars: 'http://aulavirtualtics.com/backendinv/storage/avatars/',
+  API_URL: 'http://prosperocrecer.com/public/',
+  URL_FORM: 'http://prosperocrecer.com/public/sendEmail/',
+  URL_comprobantes: 'http://prosperocrecer.com/public/storage/recibos/',
+  URL_avatars: 'http://prosperocrecer.com/storage/avatars/',
   phone: '+593'
 };
