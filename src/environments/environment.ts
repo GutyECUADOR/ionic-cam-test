@@ -8,6 +8,7 @@ export const environment = {
   URL_FORM: 'http://prosperocrecer.com/sendEmail/',
   URL_comprobantes: 'http://prosperocrecer.com/storage/recibos/',
   URL_avatars: 'http://prosperocrecer.com/storage/avatars/',
-  phone: '+593'
+  phone: '+593 97 873 8616',
+  wallet: 'TFsbEdu3BR5pdY8JdMX6acZUMYgbC36FV4'
 };
 

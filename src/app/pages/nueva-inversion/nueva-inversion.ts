@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { IInversion } from "../../interfaces/iinversion.interface";
 import { InversionService } from '../../services/inversion.service';
 import { LoadingController } from '@ionic/angular';
 
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -42,7 +43,8 @@ export class NuevaInversion {
   constructor(public router: Router, 
     public inversionService: InversionService,
     public alertCtrl: AlertController,
-    private loadingCtrl: LoadingController
+    private loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
     ) {
     
   }
@@ -153,6 +155,20 @@ export class NuevaInversion {
 
   calculateAproximado(){
     this.inversion.monto_recibir = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
+  }
+
+  async BilleteraButtomHandler(){
+    console.log('Copy data');
+    navigator.clipboard.writeText(environment.wallet);
+    const toast = await this.toastCtrl.create({
+      header: `Código de deposito copiado.`,
+      duration: 3000,
+      buttons: [{
+        text: 'Cerrar',
+        role: 'cancel'
+      }]
+    });
+    await toast.present();
   }
   
 
