@@ -6,6 +6,7 @@ import { AlertController, ToastController } from '@ionic/angular';
 import { IInversion } from "../../interfaces/iinversion.interface";
 import { InversionService } from '../../services/inversion.service';
 import { LoadingController } from '@ionic/angular';
+import { Clipboard } from '@capacitor/clipboard';
 
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { environment } from 'src/environments/environment';
@@ -44,7 +45,7 @@ export class NuevaInversion {
     public inversionService: InversionService,
     public alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
-    public toastCtrl: ToastController,
+    public toastCtrl: ToastController
     ) {
     
   }
@@ -157,9 +158,14 @@ export class NuevaInversion {
     this.inversion.monto_recibir = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
   }
 
-  async BilleteraButtomHandler(){
-    console.log('Copy data');
-    navigator.clipboard.writeText(environment.wallet);
+ 
+  
+
+  async BilleteraButtomHandler() {
+    await Clipboard.write({
+      string: environment.wallet
+    });
+
     const toast = await this.toastCtrl.create({
       header: `Código de deposito copiado.`,
       duration: 3000,
@@ -169,7 +175,6 @@ export class NuevaInversion {
       }]
     });
     await toast.present();
-  }
-  
+  };
 
 }
