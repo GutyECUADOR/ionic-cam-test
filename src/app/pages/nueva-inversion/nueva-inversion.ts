@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 import { IInversion } from "../../interfaces/iinversion.interface";
 import { InversionService } from '../../services/inversion.service';
+import { LoadingController } from '@ionic/angular';
+import { Clipboard } from '@capacitor/clipboard';
 
 import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -31,6 +34,7 @@ export class NuevaInversion {
   };
   tiposInversion = [];
   diasInversion = [];
+  MAXIMO_VAL_INVERSION = 99999;
   imagen_src: string;
   tasa: number;
  
@@ -39,7 +43,10 @@ export class NuevaInversion {
 
   constructor(public router: Router, 
     public inversionService: InversionService,
-    public alertCtrl: AlertController,) {
+    public alertCtrl: AlertController,
+    private loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
+    ) {
     
   }
 
@@ -64,13 +71,30 @@ export class NuevaInversion {
   }
 
   async onSubmit(form: NgForm) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Validando registro, espere...',
+    });
+   
+    if (this.inversion.monto >= this.MAXIMO_VAL_INVERSION || this.inversion.monto < 10) {
+      const alert_maximo = await this.alertCtrl.create({
+        header: 'Monto de inversón no válido.',
+        message: `Valor máximo de inversión máximo: $${this.MAXIMO_VAL_INVERSION}, minimo $10.`,
+        buttons: [{
+          text: 'Aceptar'
+        }]
+      });
+      alert_maximo.present();
+      return;
+    }
+
+    loading.present();
     this.submitted = true;
     if (form.valid) {
       this.inversionService.postCreateInversion(this.inversion).subscribe( async data => {
         console.log(data);
         const alert = await this.alertCtrl.create({
           header: 'Registro Exitoso',
-          message: `${data.message}. Su inversión esta siendo validada.`,
+          message: `${data.message}. Su inversión esta siendo validada. Confirme el pago de su inversión con nuestro soporte.`,
           buttons: [{
             text: 'Aceptar',
             role: 'confirm',
@@ -82,14 +106,22 @@ export class NuevaInversion {
             },
           }]
         });
+        loading.dismiss();
         await alert.present();
       }, async error =>{
         console.log(error);
+        console.log(error.error.errors);
+        let erroresString = '';
+        Object.values(error.error.errors).forEach(error => {
+          console.log(error[0]);
+          erroresString += '<br>' + error[0];
+        });
         const alert = await this.alertCtrl.create({
           header: 'Registro Fallido',
-          message: `${error.error.message}. Verifique todos los campos. Y la imagen del comprobante.`,
+          message: `Verifique todos los campos. Y la imagen del comprobante. ${erroresString}. `,
           buttons: ['Aceptar'],
         });
+        loading.dismiss();
         await alert.present();
         this.submitted = false;
       });
@@ -125,6 +157,24 @@ export class NuevaInversion {
   calculateAproximado(){
     this.inversion.monto_recibir = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
   }
+
+ 
   
+
+  async BilleteraButtomHandler() {
+    await Clipboard.write({
+      string: environment.wallet
+    });
+
+    const toast = await this.toastCtrl.create({
+      header: `Código de deposito copiado.`,
+      duration: 3000,
+      buttons: [{
+        text: 'Cerrar',
+        role: 'cancel'
+      }]
+    });
+    await toast.present();
+  };
 
 }

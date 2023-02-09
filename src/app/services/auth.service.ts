@@ -18,6 +18,14 @@ export class AuthService {
     return this.httpClient.post<IResponse>(URL, form);
   }
 
+  registerByEmail(form:any):Observable<IResponse>{
+    console.log(form)
+    //const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded'});
+    
+    let URL = environment.API_URL + 'api/register'
+    return this.httpClient.post<IResponse>(URL, form);
+  }
+
 
   handleError(error: HttpErrorResponse) {
     return throwError(error);

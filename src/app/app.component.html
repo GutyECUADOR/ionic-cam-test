@@ -53,6 +53,18 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+
+        <ion-list lines="none">
+          <ion-list-header>
+            Soporte a usuarios
+          </ion-list-header>
+          <ion-menu-toggle autoHide="false">
+            <ion-item button (click)="openEmailForm()" detail="false">
+              <ion-icon slot="start" name="mail"></ion-icon>
+              <ion-label>Enviar email</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
       </ion-content>
     </ion-menu>
 

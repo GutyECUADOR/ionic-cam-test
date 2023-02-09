@@ -3,12 +3,14 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="defaultHref"></ion-back-button>
     </ion-buttons>
+    <ion-title>Detalle Inversión</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <div *ngIf="inversion" class="ion-padding">
     <h1 [class]="'inversion-'+inversion.estado.toLowerCase()">Inversion {{inversion.estado | titlecase}}</h1>
+    <h2>Observacion: {{inversion.observacion }}</h2>
     <h2>Invertido: $ {{inversion.monto }}</h2>
     <h2>A recibir: $ {{inversion.monto_recibir }}</h2>
     <h2>Tasa: {{inversion.tasa}} %, a {{ inversion.dias_inversion }} dias</h2>

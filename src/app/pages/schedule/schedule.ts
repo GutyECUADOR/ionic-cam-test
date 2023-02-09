@@ -1,6 +1,12 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonList, IonRouterOutlet, LoadingController, ModalController, ToastController, Config } from '@ionic/angular';
+import { AlertController, 
+  MenuController,
+  IonList, 
+  IonRouterOutlet, 
+  LoadingController, 
+  ModalController, 
+  ToastController, Config } from '@ionic/angular';
 
 import { Preferences } from '@capacitor/preferences';
 
@@ -25,6 +31,7 @@ export class SchedulePage implements OnInit {
   constructor(
     public alertCtrl: AlertController,
     public confData: ConferenceData,
+    public menu: MenuController,
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public router: Router,
@@ -46,11 +53,19 @@ export class SchedulePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    this.menu.enable(true);
     this.getInversiones();
   }
 
-  getInversiones(){
+  async getInversiones(){
     this.isLoading = true;
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando, espere...',
+    });
+    loading.present();
+   
+    
     this.inversionService.getInversiones().subscribe(async reponse => {
       this.inversiones = reponse.inversiones;
       console.log(this.inversiones);
@@ -62,7 +77,6 @@ export class SchedulePage implements OnInit {
           role: 'cancel'
         }]
       });
-
       await toast.present();
     }, async error => {
       console.log(error);
@@ -82,6 +96,7 @@ export class SchedulePage implements OnInit {
       });
       await alert.present();
     });
+    loading.dismiss();
     this.isLoading = false;
   }
 

@@ -1,59 +1,38 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Mi cuenta</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="speaker-detail">
+  <ion-header translucent="true">
+    <ion-toolbar>
+      <ion-buttons *ngIf="!showSearchbar" slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-searchbar *ngIf="showSearchbar" showCancelButton="always" [(ngModel)]="queryText" (ionCancel)="showSearchbar = false" placeholder="Search"></ion-searchbar>
+    </ion-toolbar>
+  </ion-header>
 
-<ion-content>
-
-  <ion-card *ngIf="exchangeLabels?.length > 0">
-    <ion-card-header>
-      <ion-card-title>Exchange Rates USD/ARS</ion-card-title>
-    </ion-card-header>
-    <apx-chart 
-      [series]="chartOptions.series"
-      [chart]="chartOptions.chart"
-      [xaxis]="chartOptions.xaxis"
-      [stroke]="chartOptions.stroke"
-      [dataLabels]="chartOptions.dataLabels"
-      [yaxis]="chartOptions.yaxis"
-      [labels]="chartOptions.labels"
-    ></apx-chart>
-  </ion-card>
-
-  
-  <div class="about-info">
-   
-    <h3 class="ion-padding-top ion-padding-start">Acerca de</h3>
-
-    <p class="ion-padding-start ion-padding-end">
-      Usuario: {{ user?.name }}.
-    </p>
-
-    <p class="ion-padding-start ion-padding-end">
-      Email: {{ user?.email }}.
-    </p>
-
-    <p class="ion-padding-start ion-padding-end">
-      Fecha de registro: {{ user?.created_at | date: 'fullDate' }}.
-    </p>
-
-    <p class="ion-padding-start ion-padding-end">
-      Ranking: {{ user?.ranking }}.
-    </p>
-
-    <p class="ion-padding-start ion-padding-end">
-      Token: {{ token?.substring(4,40) }}.
-    </p>
-   
+  <div class="speaker-background">
+    <ion-avatar class="item-avatar-custom">
+      <img [src]="getAvatar()" [alt]="user?.name">
+    </ion-avatar>
+    
+    <h2>{{user?.name}}</h2>
   </div>
-  
+
+  <div class="ion-padding speaker-detail">
+    <p>Fecha de registro: {{ user?.created_at | date: 'fullDate' }}.</p>
+    <p>Email: {{ user?.email }}.</p>
+    <p>Ranking: {{ user?.ranking }}.</p>
+    <hr>
+
+    <ion-chip (click)="cargarFoto()" class="cambiarFoto" color="instagram" button>
+      <ion-icon name="logo-instagram"></ion-icon>
+      <ion-label>Cambiar foto de perfil</ion-label>
+    </ion-chip>
+  </div>
+
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openSocial()">
+    <ion-fab-button (click)="openSocial()" data-desc="Chat de soporte">
       <ion-icon name="logo-whatsapp"></ion-icon>
     </ion-fab-button>
   </ion-fab>
+
+  
 </ion-content>

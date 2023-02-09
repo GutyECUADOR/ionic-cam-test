@@ -1,34 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { UserData } from '../../providers/user-data';
-import { PopoverController } from '@ionic/angular';
+import { AlertController, PopoverController } from '@ionic/angular';
 
 import { PopoverPage } from '../about-popover/about-popover';
 import { IUser } from './../../interfaces/user.interface';
 import { environment } from '../../../environments/environment';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexStroke,
-  ApexYAxis,
-  ApexTitleSubtitle,
-  ApexLegend
-} from "ng-apexcharts";
 
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  stroke: ApexStroke;
-  dataLabels: ApexDataLabels;
-  yaxis: ApexYAxis;
-  title: ApexTitleSubtitle;
-  labels: string[];
-  legend: ApexLegend;
-  subtitle: ApexTitleSubtitle;
-};
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { InversionService } from 'src/app/services/inversion.service';
 
 @Component({
   selector: 'page-about',
@@ -36,15 +15,18 @@ export type ChartOptions = {
   styleUrls: ['./about.scss'],
 })
 export class AboutPage {
-  @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
-  location = 'madison';
+  foto: string;
   user: IUser;
   token:string;
   exchangeLabels:string[];
   exchangeValues:any[];
 
-  constructor(public popoverCtrl: PopoverController,  public userData: UserData) {
+  constructor(
+              public popoverCtrl: PopoverController,  
+              public userData: UserData,
+              public inversionService: InversionService,
+              public alertCtrl: AlertController,
+              ) {
     userData.getUser().then( data => {
       this.user = data.user;
     });
@@ -57,41 +39,7 @@ export class AboutPage {
    }
 
   async ngOnInit() {
-    await this.getExchangerates();
     
-  }
-
-  showGrafica(){
-    this.chartOptions = {
-      series: [
-        {
-          name: "USD/ARS",
-          data: this.exchangeValues
-        }
-      ],
-      chart: {
-        type: "area",
-        height: 250,
-        width: 370,
-        zoom: {
-          enabled: false
-        },
-        toolbar: {
-          show: false
-        }
-      },
-      dataLabels: {
-        enabled: false
-      },
-      labels: this.exchangeLabels,
-      xaxis: {
-        type: "datetime"
-      },
-      yaxis: {
-        show: false,
-        opposite: false
-      },
-    };
   }
 
   async presentPopover(event: Event) {
@@ -102,34 +50,58 @@ export class AboutPage {
     await popover.present();
   }
 
-  async getExchangerates(){
-    let myHeaders = new Headers();
-    myHeaders.append("apikey", "dwa0lc8QdIp2ipTokQgi3LHVfAW3Uz7d");
-    
-    fetch("https://api.apilayer.com/exchangerates_data/timeseries?start_date=2022-09-11&end_date=2022-10-11&base=USD&symbols=EUR,ARS", {
-      method: 'GET',
-      redirect: 'follow',
-      headers: myHeaders
-    })
-    .then(response => response.json())
-    .then(result => {
-      const ratesArrays = result.rates;
-      
-        this.exchangeLabels = Object.keys(ratesArrays)
-        this.exchangeValues = Object.values(ratesArrays).map( rate =>{
-          return rate['ARS'].toFixed(2);
-        })
-      console.log(this.exchangeLabels)
-      console.log(this.exchangeValues)
-      this.showGrafica()
-    })
-    .catch(error => console.log('error', error));
-
-  }
-
   openSocial(){
     let phone = environment.phone;
     console.log('Open Whatsapp');
     window.open(`https://api.whatsapp.com/send?phone=${phone}&text=Necesito soporte sobre..."`, "_blank");
+  }
+
+  async cargarFoto() {
+    const avatar = await Camera.getPhoto({
+      resultType: CameraResultType.Base64,
+      source: CameraSource.Photos,
+      quality: 25
+    })
+
+    if (avatar) {
+      console.log(avatar.base64String);
+      this.foto = avatar.base64String;
+      this.updateFoto();
+    }
+    
+  }
+
+  async updateFoto() {
+    if (this.foto) {
+      this.inversionService.postUpdateAvatar(this.foto).subscribe( async data => {
+        console.log(data);
+        const alert = await this.alertCtrl.create({
+          header: 'Actualización de Avatar',
+          message: `${data.message}. Reinicia sesión para cargar tu nuevo avatar.`,
+          buttons: ['Aceptar']
+        });
+        await alert.present();
+      }, async error =>{
+        console.log(error);
+        console.log(error.error.errors);
+        let erroresString = '';
+        Object.values(error.error.errors).forEach(error => {
+          console.log(error[0]);
+          erroresString += '<br>' + error[0];
+        });
+        const alert = await this.alertCtrl.create({
+          header: 'Registro Fallido',
+          message: `No se completo. ${erroresString}. `,
+          buttons: ['Aceptar'],
+        });
+        await alert.present();
+      });
+    }
+  }
+
+  getAvatar() {
+    let URL_avatars = environment.URL_avatars;
+    return `${URL_avatars}${this.user?.avatar}`;
+
   }
 }

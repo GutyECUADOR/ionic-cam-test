@@ -10,6 +10,7 @@ import { SplashScreen } from '@capacitor/splash-screen';
 import { Preferences } from '@capacitor/preferences';
 
 import { UserData } from './providers/user-data';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -117,5 +118,11 @@ export class AppComponent implements OnInit {
       value: 'false',
     });
     this.router.navigateByUrl('/tutorial');
+  }
+
+  openEmailForm(){
+    let URL_FORM = environment.URL_FORM;
+    console.log('Open Whatsapp');
+    window.open(`${URL_FORM}`, "_blank");
   }
 }

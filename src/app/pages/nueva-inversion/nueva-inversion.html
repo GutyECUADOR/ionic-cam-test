@@ -14,7 +14,7 @@
     <ion-list lines="none">
       <ion-item>
         <ion-label position="stacked" color="primary">Monto a invertir</ion-label>
-        <ion-input class="monto" [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" required>
+        <ion-input class="monto" [(ngModel)]="inversion.monto" name="monto" type="number" #monto="ngModel" (ngModelChange)="calculateAproximado();" onKeyPress="if(this.value.length>=5) return false;" required>
         </ion-input>
       </ion-item>
       <ion-text color="danger">
@@ -23,29 +23,35 @@
         </p>
       </ion-text>
 
+      <ion-text color="danger">
+        <p [hidden]="monto.valid || submitted === false" class="ion-padding-start">
+          El tipo de inversión es requerido
+        </p>
+      </ion-text>
+
       <ion-item>
         <ion-label position="stacked" color="primary">Tipo/Tasa de inversión</ion-label>
-        <ion-select placeholder="Seleccione la tasa de inversión" [(ngModel)]="inversion.tasa" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
+        <ion-select placeholder="Seleccione la tasa de inversión" [(ngModel)]="inversion.tasa" name="tasa" #tasa="ngModel" (ionChange)="calculateAproximado()" required>
           <ion-select-option *ngFor="let inversion of tiposInversion" [value]="inversion.tasa" >{{ inversion.nombre }} - {{ inversion.tasa }}%</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked" color="primary">Dias de inversión</ion-label>
-        <ion-select placeholder="Seleccione los dias de inversion" [(ngModel)]="inversion.dias_inversion" name="tipo" #tipo="ngModel" (ionChange)="calculateAproximado()" required>
+        <ion-select placeholder="Seleccione los dias de inversion" [(ngModel)]="inversion.dias_inversion" name="dias_inversion" #dias_inversion="ngModel" (ionChange)="calculateAproximado()" required>
           <ion-select-option *ngFor="let diaInversion of diasInversion" [value]="diaInversion.dias" >{{ diaInversion.nombre }}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-text color="danger">
-        <p [hidden]="tipo.valid || submitted === false" class="ion-padding-start">
+        <p [hidden]="dias_inversion.valid || submitted === false" class="ion-padding-start">
           El tipo de inversión es requerido
         </p>
       </ion-text>
 
       <ion-item>
         <ion-label position="stacked" color="primary">Monto aproximado a recibir</ion-label>
-        <ion-input class="monto" [(ngModel)]="inversion.monto_recibir" name="monto_recibir" type="number" readonly>
+        <ion-input class="monto" [(ngModel)]="inversion.monto_recibir" name="monto_recibir" #monto_recibir="ngModel" type="number" readonly>
         </ion-input>
       </ion-item>
 
@@ -69,5 +75,13 @@
       <ion-button (click)="onSubmit(inversionForm)" type="submit" expand="block" [disabled]="!inversionForm.valid">Invertir</ion-button>
     </div>
   </form>
+
+  <img src="../../../assets/img/qrcode.jpg" class="img-responsive" id="QRcode" > 
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="BilleteraButtomHandler()" data-desc="Billetera para pagos en Binance">
+      <ion-icon name="wallet"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>

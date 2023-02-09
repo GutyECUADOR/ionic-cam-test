@@ -8,7 +8,10 @@ import { Preferences } from '@capacitor/preferences';
 
 import { UserOptions } from '../../interfaces/user-options';
 import { AlertController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
+
 import { AuthService } from '../../services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'page-login',
@@ -16,7 +19,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.scss'],
 })
 export class LoginPage {
-  login: UserOptions = { email: '', password: '' };
+  login: UserOptions = { name: '', email: '', password: '' };
   submitted = false;
 
   constructor(
@@ -25,9 +28,15 @@ export class LoginPage {
     public router: Router,
     public alertCtrl: AlertController,
     public menu: MenuController,
+    private loadingCtrl: LoadingController
   ) { }
 
   async onLogin(form: NgForm) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Validando ingreso, espere...',
+    });
+    loading.present();
+
     this.submitted = true;
     
     if (form.valid) {
@@ -35,6 +44,7 @@ export class LoginPage {
         console.log(data);
         if (data.access_token) {
           this.userData.login(data);
+          loading.dismiss();
         this.router.navigateByUrl('/app/tabs/schedule');
         }
       }, async error =>{
@@ -44,6 +54,7 @@ export class LoginPage {
           message: `${error.error.message}`,
           buttons: ['OK'],
         });
+        loading.dismiss();
         await alert.present();
       });
     }else{
@@ -52,6 +63,7 @@ export class LoginPage {
         message: `Complete los campos requeridos`,
         buttons: ['OK'],
       });
+      loading.dismiss();
       await alert.present();
     }
   }
@@ -70,7 +82,12 @@ export class LoginPage {
 
   ionViewDidLeave() {
     // enable the root left menu when leaving the tutorial page
-    this.menu.enable(true);
+   /*  this.menu.enable(true); */
+  }
+
+  openRestorePassword(){
+    let URL = environment.API_URL;
+    window.open(`${URL}forgot-password`, "_blank");
   }
 
 }

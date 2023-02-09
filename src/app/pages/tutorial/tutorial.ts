@@ -51,4 +51,8 @@ export class TutorialPage {
     this.menu.enable(false);
   }
 
+  next(){
+    this.slides.slideNext(); // slide to next
+}
+
 }
