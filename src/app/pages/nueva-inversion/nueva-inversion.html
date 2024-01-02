@@ -64,11 +64,11 @@
       </ion-thumbnail>
 
       <div style="padding-top: 0px;">
-        <ion-button (click)="cargarFoto()" type="buttom" expand="block" color="success">Cargar comprobante 
+        <ion-button (click)="cargarFoto()" type="buttom" expand="block" color="success">Cargar comprobante
           <ion-icon slot="start" name="camera"></ion-icon>
         </ion-button>
       </div>
-      
+
     </ion-list>
 
     <div>
@@ -76,7 +76,9 @@
     </div>
   </form>
 
-  <img src="../../../assets/img/qrcode.jpg" class="img-responsive" id="QRcode" > 
+  <span>Billetera para el depósito</span>
+  <img src="../../../assets/img/qrcode.jpg" class="img-responsive" id="QRcode" >
+
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="BilleteraButtomHandler()" data-desc="Billetera para pagos en Binance">
