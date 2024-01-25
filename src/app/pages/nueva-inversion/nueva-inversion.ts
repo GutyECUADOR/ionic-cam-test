@@ -37,17 +37,17 @@ export class NuevaInversion {
   MAXIMO_VAL_INVERSION = 99999;
   imagen_src: string;
   tasa: number;
- 
- 
+
+
   submitted = false;
 
-  constructor(public router: Router, 
+  constructor(public router: Router,
     public inversionService: InversionService,
     public alertCtrl: AlertController,
     private loadingCtrl: LoadingController,
     public toastCtrl: ToastController
     ) {
-    
+
   }
 
   ionViewWillEnter() {
@@ -74,7 +74,7 @@ export class NuevaInversion {
     const loading = await this.loadingCtrl.create({
       message: 'Validando registro, espere...',
     });
-   
+
     if (this.inversion.monto >= this.MAXIMO_VAL_INVERSION || this.inversion.monto < 10) {
       const alert_maximo = await this.alertCtrl.create({
         header: 'Monto de inversón no válido.',
@@ -141,7 +141,7 @@ export class NuevaInversion {
       this.imagen_src = `data:image/jpeg;base64,${img_recibo.base64String}`;
       /* console.log(this.inversion.imagen_recibo); */
     }
-    
+
   }
 
   onSelectChangeTasa(selectedValue: any) {
@@ -158,8 +158,8 @@ export class NuevaInversion {
     this.inversion.monto_recibir = ((this.inversion.monto * this.inversion.tasa) / 100) * this.inversion.dias_inversion + this.inversion.monto;
   }
 
- 
-  
+
+
 
   async BilleteraButtomHandler() {
     await Clipboard.write({
@@ -175,6 +175,7 @@ export class NuevaInversion {
       }]
     });
     await toast.present();
+    window.open(environment.wallet, "_blank");
   };
 
 }
