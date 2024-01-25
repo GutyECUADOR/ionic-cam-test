@@ -12,7 +12,7 @@
     <ion-avatar class="item-avatar-custom">
       <img [src]="getAvatar()" [alt]="user?.name">
     </ion-avatar>
-    
+
     <h2>{{user?.name}}</h2>
   </div>
 
@@ -28,11 +28,4 @@
     </ion-chip>
   </div>
 
-  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-    <ion-fab-button (click)="openSocial()" data-desc="Chat de soporte">
-      <ion-icon name="logo-whatsapp"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-
-  
 </ion-content>
